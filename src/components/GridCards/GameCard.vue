@@ -11,7 +11,7 @@
             class="absolute w-full h-full bottom-0 right-0 bg-gradient-to-t from-gray-800"
           ></div>
           <img
-            :src="result.background_image"
+            :src="requestCrop(result.background_image)"
             :alt="result.name"
             class="rounded-t-lg h-60 object-cover"
           />
@@ -132,9 +132,18 @@ export default defineComponent({
       return truncate(name, { length: 32, omission: '..' })
     }
 
+    function requestCrop(uri) {
+      if (uri === null) return
+      else {
+        const crop = uri.replace("/media/", "/media/crop/600/400/")
+        return crop
+      }
+    }
+
     return {
       ...toRefs(state),
-      shorterName
+      shorterName,
+      requestCrop
     }
   },
   props: {

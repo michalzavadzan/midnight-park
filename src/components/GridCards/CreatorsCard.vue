@@ -9,7 +9,7 @@
             class="absolute z-20 rounded-lg w-full h-full bottom-0 right-0 bg-gradient-to-t from-gray-800"
           ></div>
           <img
-            :src="result.image_background"
+            :src="requestCrop(result.image_background)"
             :alt="result.name"
             class="rounded-lg h-96 opacity-40 object-cover znegative"
           />
@@ -17,7 +17,7 @@
             <div class="h-full flex flex-col justify-around">
               <div class="m-2 text-center">
                 <img
-                  :src="result.image"
+                  :src="requestCropCreator(result.image)"
                   :alt="result.name"
                   class="border-2 border-gray-200 rounded-full h-32 object-cover znegative mx-auto mt-2"
                 />
@@ -125,9 +125,26 @@ export default defineComponent({
       return truncate(name, { length: 22, omission: '..' })
     }
 
+    function requestCrop(uri) {
+      if (uri === null) return
+      else {
+        const crop = uri.replace("/media/", "/media/crop/600/400/")
+        return crop
+      }
+    }
+    function requestCropCreator(uri) {
+      if (uri === null) return uri = ""
+      else {
+        const crop = uri.replace("/media/", "/media/resize/200/-/")
+      return crop
+      }  
+    }
+
     return {
       ...toRefs(state),
-      shorterName
+      shorterName,
+      requestCrop,
+      requestCropCreator
     }
   },
   props: {
